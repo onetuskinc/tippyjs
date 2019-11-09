@@ -220,8 +220,8 @@ describe('delay', () => {
 
     fireEvent.mouseLeave(instance.popper);
     fireEvent.mouseMove(document.body, {
-      clientX: 1000,
-      clientY: 1000,
+      screenX: 1000,
+      screenY: 1000,
     });
 
     jest.advanceTimersByTime(101);
@@ -457,8 +457,8 @@ describe('interactive', () => {
     expect(instance.state.isVisible).toBe(true);
 
     fireEvent.mouseMove(document.body, {
-      clientX: 1000,
-      clientY: 1000,
+      screenX: 1000,
+      screenY: 1000,
     });
     expect(instance.state.isVisible).toBe(false);
   });

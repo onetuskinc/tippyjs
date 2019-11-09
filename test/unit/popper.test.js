@@ -460,76 +460,76 @@ describe('isCursorOutsideInteractiveBorder', () => {
 
     placementObject.inside = [
       {
-        clientX: mergedRect.left - interactiveBorder,
-        clientY: mergedRect.top - interactiveBorder,
+        screenX: mergedRect.left - interactiveBorder,
+        screenY: mergedRect.top - interactiveBorder,
       },
       {
-        clientX: mergedRect.left - interactiveBorder,
-        clientY: mergedRect.bottom + interactiveBorder,
+        screenX: mergedRect.left - interactiveBorder,
+        screenY: mergedRect.bottom + interactiveBorder,
       },
       {
-        clientX: mergedRect.right + interactiveBorder,
-        clientY: mergedRect.top - interactiveBorder,
+        screenX: mergedRect.right + interactiveBorder,
+        screenY: mergedRect.top - interactiveBorder,
       },
       {
-        clientX: mergedRect.right + interactiveBorder,
-        clientY: mergedRect.bottom + interactiveBorder,
+        screenX: mergedRect.right + interactiveBorder,
+        screenY: mergedRect.bottom + interactiveBorder,
       },
     ];
 
     placementObject.outside = [
       // All outside
       {
-        clientX: mergedRect.left - interactiveBorder - 1,
-        clientY: mergedRect.top - interactiveBorder - 1,
+        screenX: mergedRect.left - interactiveBorder - 1,
+        screenY: mergedRect.top - interactiveBorder - 1,
       },
       {
-        clientX: mergedRect.left - interactiveBorder - 1,
-        clientY: mergedRect.bottom + interactiveBorder + 1,
+        screenX: mergedRect.left - interactiveBorder - 1,
+        screenY: mergedRect.bottom + interactiveBorder + 1,
       },
       {
-        clientX: mergedRect.right + interactiveBorder + 1,
-        clientY: mergedRect.top - interactiveBorder - 1,
+        screenX: mergedRect.right + interactiveBorder + 1,
+        screenY: mergedRect.top - interactiveBorder - 1,
       },
       {
-        clientX: mergedRect.right + interactiveBorder + 1,
-        clientY: mergedRect.bottom + interactiveBorder + 1,
+        screenX: mergedRect.right + interactiveBorder + 1,
+        screenY: mergedRect.bottom + interactiveBorder + 1,
       },
 
       // x outside
       {
-        clientX: mergedRect.left - interactiveBorder - 1,
-        clientY: mergedRect.top - interactiveBorder,
+        screenX: mergedRect.left - interactiveBorder - 1,
+        screenY: mergedRect.top - interactiveBorder,
       },
       {
-        clientX: mergedRect.left - interactiveBorder - 1,
-        clientY: mergedRect.bottom + interactiveBorder,
+        screenX: mergedRect.left - interactiveBorder - 1,
+        screenY: mergedRect.bottom + interactiveBorder,
       },
       {
-        clientX: mergedRect.right + interactiveBorder + 1,
-        clientY: mergedRect.top - interactiveBorder,
+        screenX: mergedRect.right + interactiveBorder + 1,
+        screenY: mergedRect.top - interactiveBorder,
       },
       {
-        clientX: mergedRect.right + interactiveBorder + 1,
-        clientY: mergedRect.bottom + interactiveBorder,
+        screenX: mergedRect.right + interactiveBorder + 1,
+        screenY: mergedRect.bottom + interactiveBorder,
       },
 
       // y outside
       {
-        clientX: mergedRect.left - interactiveBorder,
-        clientY: mergedRect.top - interactiveBorder - 1,
+        screenX: mergedRect.left - interactiveBorder,
+        screenY: mergedRect.top - interactiveBorder - 1,
       },
       {
-        clientX: mergedRect.left - interactiveBorder,
-        clientY: mergedRect.bottom + interactiveBorder + 1,
+        screenX: mergedRect.left - interactiveBorder,
+        screenY: mergedRect.bottom + interactiveBorder + 1,
       },
       {
-        clientX: mergedRect.right + interactiveBorder,
-        clientY: mergedRect.top - interactiveBorder - 1,
+        screenX: mergedRect.right + interactiveBorder,
+        screenY: mergedRect.top - interactiveBorder - 1,
       },
       {
-        clientX: mergedRect.right + interactiveBorder,
-        clientY: mergedRect.bottom + interactiveBorder + 1,
+        screenX: mergedRect.right + interactiveBorder,
+        screenY: mergedRect.bottom + interactiveBorder + 1,
       },
     ];
   });
