@@ -278,7 +278,12 @@ export default function createTippy(
   }
 
   function cleanupInteractiveMouseListeners(): void {
-    doc.body.removeEventListener('mouseleave', scheduleHide);
+    if (doc.defaultView === popper!.ownerDocument!.defaultView) {
+      doc.body.removeEventListener('mouseleave', scheduleHide);
+    } else {
+      doc.body.removeEventListener('mouseleave', onMouseMove);
+    }
+
     doc.removeEventListener('mousemove', debouncedOnMouseMove);
     mouseMoveListeners = mouseMoveListeners.filter(
       listener => listener !== debouncedOnMouseMove,
@@ -464,6 +469,24 @@ export default function createTippy(
     }
   }
 
+  function getBoundingScreenRect(el: Element): ClientRect {
+    const rect = el.getBoundingClientRect();
+    const win = el.ownerDocument!.defaultView;
+    if (!win) {
+      return rect;
+    }
+
+    const {screenX, screenY} = win;
+    return {
+      left: screenX + rect.left,
+      top: screenY + rect.top,
+      right: screenX + rect.right,
+      bottom: screenY + rect.bottom,
+      width: rect.width,
+      height: rect.height,
+    };
+  }
+
   function onMouseMove(event: MouseEvent): void {
     const isCursorOverReferenceOrPopper = closestCallback(
       event.target as Element,
@@ -482,8 +505,8 @@ export default function createTippy(
         const {interactiveBorder} = instance.props;
 
         return {
-          popperRect: popper.getBoundingClientRect(),
-          tooltipRect: tooltip.getBoundingClientRect(),
+          popperRect: getBoundingScreenRect(popper),
+          tooltipRect: getBoundingScreenRect(tooltip),
           interactiveBorder,
         };
       });
@@ -500,7 +523,28 @@ export default function createTippy(
     }
 
     if (instance.props.interactive) {
-      doc.body.addEventListener('mouseleave', scheduleHide);
+      if (doc.defaultView === popper!.ownerDocument!.defaultView) {
+        doc.body.addEventListener('mouseleave', scheduleHide);
+      } else {
+        // XXX mouse enter/leave events are broken since the tooltip window does not
+        // have the focus, the enter and leave events trigger in quick succession when
+        // the mouse first gets over the popper window.
+        // This means that we can't detect if the cursor leaves the tooltip window
+        // unless it does so by going into the main window. Moving directly from the
+        // tooltip to the desktop for instance will not trigger the hide.
+        //
+        // Tooltip window only gets a mousemove when the mouse enters its area and when
+        // clicking on it, but it can't track the actual movement.
+        //
+
+        // MouseLeave will trigger upon hovering the tooltip window area so we can't
+        // rely on it to dismiss the tooltip. Instead we trigger the MouseMove logic
+        // to figure out if the event was triggered outside the tooltip area or not
+        // and act accordingly. It acts as a safeguard for the bounced monitor on the
+        // MouseMove event.
+        doc.body.addEventListener('mouseleave', onMouseMove);
+      }
+
       doc.addEventListener('mousemove', debouncedOnMouseMove);
       pushIfUnique(mouseMoveListeners, debouncedOnMouseMove);
 
@@ -752,11 +796,11 @@ export default function createTippy(
 
         Using a wrapper <div> or <span> tag around the reference element solves
         this by creating a new parentNode context.
-        
+
         Specifying \`appendTo: document.body\` silences this warning, but it
         assumes you are using a focus management solution to handle keyboard
         navigation.
-        
+
         See: https://atomiks.github.io/tippyjs/accessibility/#interactivity`,
       );
     }

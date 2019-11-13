@@ -260,7 +260,7 @@ export function isCursorOutsideInteractiveBorder(
   }[],
   event: MouseEvent,
 ): boolean {
-  const {clientX, clientY} = event;
+  const {screenX, screenY} = event;
 
   return popperTreeData.every(
     ({popperRect, tooltipRect, interactiveBorder}) => {
@@ -273,10 +273,10 @@ export function isCursorOutsideInteractiveBorder(
         left: Math.min(popperRect.left, tooltipRect.left),
       };
 
-      const exceedsTop = mergedRect.top - clientY > interactiveBorder;
-      const exceedsBottom = clientY - mergedRect.bottom > interactiveBorder;
-      const exceedsLeft = mergedRect.left - clientX > interactiveBorder;
-      const exceedsRight = clientX - mergedRect.right > interactiveBorder;
+      const exceedsTop = mergedRect.top - screenY > interactiveBorder;
+      const exceedsBottom = screenY - mergedRect.bottom > interactiveBorder;
+      const exceedsLeft = mergedRect.left - screenX > interactiveBorder;
+      const exceedsRight = screenX - mergedRect.right > interactiveBorder;
 
       return exceedsTop || exceedsBottom || exceedsLeft || exceedsRight;
     },
